@@ -11,7 +11,7 @@
 int main(){
 
   double tLat = -77;
-  double tLon = -39;
+  double tLon = 39;
 
   //double JD = getCurrentJD();
   double JD = 2458388.0;
