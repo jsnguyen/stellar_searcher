@@ -4,16 +4,18 @@ SRCDIR=.
 OBJDIR=.
 
 _INCDIRS=../include \
-				 ../../jsmn 
+				 ../../jsmn \
+				 ../../../include
 
 INCDIRS=$(addprefix -I,$(_INCDIRS))
 
 _LIBDIRS=../lib \
-				 ../../wmmwrapper/lib 
+				 ../../wmmwrapper/lib \
+				 ../../../lib
 
 LIBDIRS=$(addprefix -L,$(_LIBDIRS))
 
-_LIBS=ss ww m
+_LIBS=ss ww m sofa_c
 LIBS=$(addprefix -l,$(_LIBS))
 
 CXXFLAGS=-O3 -Wall $(INCDIRS)

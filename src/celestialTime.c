@@ -1,4 +1,5 @@
 #include "stellar_searcher/celestialTime.h"
+#include "sofa.h"
 
 /*
 Refer to:
@@ -21,7 +22,7 @@ int GetCurrentJDN(){
   int M = ptm->tm_mon+1;
   int D = ptm->tm_mday;
 
-  int JDN = (1461 * (Y + 4800 + (M - 14)/12))/4 +(367 * (M - 2 - 12 * ((M - 14)/12)))/12 - (3 * ((Y + 4900 + (M - 14)/12)/100))/4 + D - 32075;
+  int JDN = GetJDN(Y,M,D);
 
   return JDN;
 }
@@ -29,9 +30,15 @@ int GetCurrentJDN(){
 // Julian Day Number
 int GetJDN(int Y, int M, int D){
 
-  int JDN = (1461 * (Y + 4800 + (M - 14)/12))/4 +(367 * (M - 2 - 12 * ((M - 14)/12)))/12 - (3 * ((Y + 4900 + (M - 14)/12)/100))/4 + D - 32075;
+  int i;
+  double JDN0, JDN;
+  i = iauCal2jd( Y, M, D, &JDN0, &JDN);
+  return JDN + JDN0;
 
-  return JDN;
+}
+
+double GetFractionalJD(int h, int m, int s){
+  return 0.5 + h/24.0 + m/(24.0*60.0) + s/(24.0*60.0*60.0);
 }
 
 // Julian Day
@@ -46,15 +53,14 @@ double GetCurrentJD(){
   int m = ptm->tm_min;
   int s = ptm->tm_sec;
 
-  double JD = GetCurrentJDN() + (h-12.0)/24.0 + m/(24.0*60.0) + s/(24.0*60.0*60.0);
+  double JD = GetCurrentJDN() + GetFractionalJD(h,m,s);
 
   return JD;
 }
 
 // Julian Day
 double GetJD(int h, int m, double s, int Y, int M, int D){
-  double JD = GetJDN(Y,M,D) + (h-12.0)/24.0 + m/(24.0*60.0) + s/(24.0*60.0*60.0);
-  return JD;
+  return GetJDN(Y,M,D) + GetFractionalJD(h,m,s);
 }
 
 double GetJulianYear(int h, int m, double s, int Y, int M, int D){
@@ -80,17 +86,50 @@ double GetGMT(){
 }
 
 // Greenwich Mean Sidereal Time in decimal hours
-// Seems to be about ~3 seconds off?
-double GetGMST(double JD){
+double GetGMST(int Y, int M, int D, int h, int m, int s){
 
-  double D = JD - 2451545.0;
+  // Get UTC split into two dates... UTC1+UTC2 = UTC
+  double UTC1,UTC2;
+  iauDtf2d("UTC", Y, M, D, h, m, s, &UTC1, &UTC2);
 
-  //double GMST = 6.697374558 + 0.06570982441908*D0 + 1.00273790935*H ; // Other formulation
-  double GMST = 18.697374558 + 24.06570982441908*D;
+  // See: https://datacenter.iers.org/eop.php
+  // This is true from 02 May 2019, 0h UTC, onwards
+  double DUT1 = -0.2;
 
-  GMST = fmod(GMST,24.0);
+  // !!! NOTICE, NEED RIGOROUS WAY OF FINDING DUT1 FOR DATES PREVIOUS TO THIS AS WELL !!!
+  // Get UT1 time split into two dates... UT11 + UT12 = UT1
+  // Requires a split UTC time as well to calculate UT1
+  double UT11, UT12;
+  iauUtcut1(UTC1, UTC2, DUT1, &UT11, &UT12);
 
-  return GMST;
+  // !!! NOTICE, NEED RIGOROUS WAY OF FINDING DT FOR DATES PREVIOUS TO THIS AS WELL !!!
+  // USNO website for DT reference seems to be down for a bit...
+  double DT = 69.36; // Good on 2020-01-01... but this number changes over time unpredictably!
+  double TT1, TT2;
+  iauUt1tt(UT11, UT12, DT, &TT1, &TT2);
+
+  double GMST = iauGmst06(UT11, UT12, TT1, TT2);
+
+  return GMST*180.0/PI;
+}
+
+double GetCurrentGMST(){
+
+  time_t rawtime;
+  time(&rawtime);
+
+  struct tm * ptm;
+  ptm = gmtime(&rawtime);
+
+  int Y = ptm->tm_year+1900;
+  int M = ptm->tm_mon+1;
+  int D = ptm->tm_mday;
+  int h = ptm->tm_hour;
+  int m = ptm->tm_min;
+  int s = ptm->tm_sec;
+
+  return GetGMST(Y, M, D, h, m, s);
+
 }
 
 // Greenwich Apparent Sidereal Time in decimal hours
@@ -106,7 +145,7 @@ double GetGAST(double JD){
 
   // Equation of the Equinoxes
   double eqeq = p*cos(e*(PI/180.0));
-  double GAST = GetGMST(JD)+eqeq;
+  double GAST = 0;//GetGMST(JD)+eqeq;
 
   GAST = fmod(GAST,24.0);
 
@@ -116,7 +155,7 @@ double GetGAST(double JD){
 // Local Mean Sidereal Time in decimal hours
 double GetLMST(double JD, double longitude){
 
-  double LMST = GetGMST(JD)+((longitude/360.0) * 24.0);
+  double LMST = 0;//GetGMST(JD)+((longitude/360.0) * 24.0);
 
   if (LMST<0.0){
     LMST = LMST+24.0;

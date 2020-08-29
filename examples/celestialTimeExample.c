@@ -7,6 +7,7 @@ int main(){
 
   double longitude = 33;
 
+  // MY FUNCTION IS OFF BY 1 DAY ITS WRONG!!! SOFA IS CORRECT!!
   int JDN = GetCurrentJDN();
   printf("Current JDN -> %d\n",JDN);
   printf("JDN on 9/25/2018 -> %d\n",GetJDN(2018,9,25));
@@ -22,8 +23,8 @@ int main(){
   PrintDecimalHoursToHMS(GetGMT());
   printf("\n");
 
-  printf("Current GMST -> %f\n",GetGMST(JD));
-  PrintDecimalHoursToHMS(GetGMST(JD));
+  printf("Current GMST -> %f\n",GetCurrentGMST());
+  PrintDecimalHoursToHMS(DecimalDegreesToDecimalHours(GetCurrentGMST()));
   printf("\n");
 
   printf("Current GAST -> %f\n",GetGAST(JD));
@@ -40,8 +41,8 @@ int main(){
 
   printf("====================\n\n");
 
-  printf("GMST 0h UTC 2018/2/1-> %f\n",GetGMST(GetJD(0,0,0,2018,2,1)));
-  PrintDecimalHoursToHMS(GetGMST(GetJD(0,0,0,2018,2,1)));
+  printf("GMST 0h UTC 2020/1/1-> %f\n",0);
+  PrintDecimalHoursToHMS(DecimalDegreesToDecimalHours(GetGMST(2020,1,1,0,0,0)));
   printf("\n");
 
   printf("GAST 0h UTC 2018/2/1-> %f\n",GetGAST(GetJD(0,0,0,2018,2,1)));

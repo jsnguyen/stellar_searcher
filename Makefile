@@ -4,13 +4,16 @@ SRCDIR=src
 OBJDIR=build
 
 _INCDIRS=include \
-				 ../jsmn
+				 ../jsmn \
+				 ../../include
+
 INCDIRS=$(addprefix -I,$(_INCDIRS))
 
-_LIBDIRS=lib
+_LIBDIRS=lib \
+				 ../../lib
 LIBDIRS=$(addprefix -L,$(_LIBDIRS))
 
-_LIBS=m
+_LIBS=m sofa_c
 LIBS=$(addprefix -l,$(_LIBS))
 
 CXXFLAGS=-O3 -Wall $(INCDIRS) -fPIC

@@ -10,6 +10,9 @@
 
 int GetCurrentJDN();
 int GetJDN(int Y, int M, int D);
+
+double GetFractionalJD(int h, int m, int s);
+
 double GetCurrentJD();
 double GetJD(int h, int m, double s, int Y, int M, int D);
 
@@ -17,7 +20,8 @@ double GetJulianYear(int h, int m, double s, int Y, int M, int D);
 double GetCurrentJulianYear();
 
 double GetGMT();
-double GetGMST(double JD);
+double GetGMST(int Y, int M, int D, int h, int m, int s);
+double GetCurrentGMST();
 double GetGAST(double JD);
 double GetLMST(double JD, double lon);
 double GetLAST(double JD, double lon);
