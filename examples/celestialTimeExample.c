@@ -7,99 +7,126 @@ int main(){
 
   double longitude = 33;
 
-  // MY FUNCTION IS OFF BY 1 DAY ITS WRONG!!! SOFA IS CORRECT!!
-  int JDN = GetCurrentJDN();
-  printf("Current JDN -> %d\n",JDN);
-  printf("JDN on 9/25/2018 -> %d\n",GetJDN(2018,9,25));
+  printf("CURRENT TIMES\n");
+  printf("=============\n\n");
 
-  double JD = GetCurrentJD();
-  printf("Current JD  -> %f\n",JD);
-  printf("JDN on 9/25/2018 00:00:00 -> %f\n",GetJD(0,0,0,2018,9,25));
+  DateTime currentDateTime;
+  GetCurrentDateTime(&currentDateTime);
 
-  printf("\n");
-  printf("====================\n\n");
-
-  printf("Current GMT -> %f\n",GetGMT());
-  PrintDecimalHoursToHMS(GetGMT());
+  int currJDN = GetJDN(currentDateTime);
+  double currJD = GetJD(currentDateTime);
+  printf("Current JDN -> %i\n", currJDN);
+  printf("Current JD  -> %f\n", currJD);
   printf("\n");
 
-  printf("Current GMST -> %f\n",GetCurrentGMST());
-  PrintDecimalHoursToHMS(DecimalDegreesToDecimalHours(GetCurrentGMST()));
+  double currGMST = GetGMST(currentDateTime);
+  printf("Current GMST -> %f\n",currGMST);
+  PrintHMS(currGMST);
   printf("\n");
 
-  printf("Current GAST -> %f\n",GetGAST(JD));
-  PrintDecimalHoursToHMS(GetGAST(JD));
+  double currGAST = GetGAST(currentDateTime);
+  printf("Current GAST -> %f\n",currGAST);
+  PrintHMS(currGAST);
   printf("\n");
 
-  printf("Current LMST -> %f\n",GetLMST(JD,longitude));
-  PrintDecimalHoursToHMS(GetLMST(JD,longitude));
+  double currLMST = GetLMST(currentDateTime,longitude);
+  printf("Current LMST -> %f\n",currLMST);
+  PrintHMS(currLMST);
   printf("\n");
 
-  printf("Current LAST -> %f\n",GetLAST(JD,longitude));
-  PrintDecimalHoursToHMS(GetLAST(JD,longitude));
+  double currLAST = GetLAST(currentDateTime,longitude);
+  printf("Current LAST -> %f\n",currLAST);
+  PrintHMS(currLAST);
   printf("\n");
 
-  printf("====================\n\n");
+  printf("TIMES ON 09/25/2018 00:00:00\n");
+  printf("============================\n\n");
 
-  printf("GMST 0h UTC 2020/1/1-> %f\n",0);
-  PrintDecimalHoursToHMS(DecimalDegreesToDecimalHours(GetGMST(2020,1,1,0,0,0)));
+  DateTime testDateA;
+  SetDateTime(&testDateA,2018,1,8,0,0,0);
+  int JDNtda = GetJDN(testDateA);
+  double JDtda = GetJD(testDateA);
+  printf("JDN on 1/8/2018 00:00:00 -> %i\n", JDNtda);
+  printf("JD  on 1/8/2018 00:00:00 -> %f\n", JDtda);
   printf("\n");
 
-  printf("GAST 0h UTC 2018/2/1-> %f\n",GetGAST(GetJD(0,0,0,2018,2,1)));
-  PrintDecimalHoursToHMS(GetGAST(GetJD(0,0,0,2018,2,1)));
+  double GMSTtda = GetGMST(testDateA);
+  printf("GMST on 1/8/2018 00:00:00 -> %f\n",GMSTtda);
+  PrintHMS(GMSTtda);
   printf("\n");
 
-  printf("====================\n\n");
-
-  printf("DMS to Decimal Degrees\n");
-  printf("-16d44\'41.5\" to Decimal: %f\n",DMSToDecimalDegrees(-16,44,41.5));
+  double GASTtda = GetGAST(testDateA);
+  printf("GAST on 1/8/2018 00:00:00 -> %f\n",GASTtda);
+  PrintHMS(GASTtda);
   printf("\n");
 
-  printf("HMS to Decimal Hours\n");
-  printf("06:45:59.19 to Decimal: %f\n",HMSToDecimalHours(6,45,59.19));
+  double LMSTtda = GetLMST(testDateA, longitude);
+  printf("Current LMST -> %f\n",LMSTtda);
+  PrintHMS(LMSTtda);
   printf("\n");
 
-  printf("====================\n\n");
-
-  printf("Print Decimal Degrees in DMS\n");
-  printf("1.2345d -> ");
-  PrintDecimalDegreesToDMS(1.2345);
-  printf("-1.2345d -> ");
-  PrintDecimalDegreesToDMS(-1.2345);
+  double LASTtda = GetLAST(testDateA, longitude);
+  printf("Current LAST -> %f\n",LASTtda);
+  PrintHMS(LASTtda);
   printf("\n");
 
-  printf("====================\n\n");
+  printf("HMS/DMS to radians conversion testing\n");
+  printf("=====================================\n\n");
 
-  char out[64];
-  printf("Decimal Degrees to DMS Str\n");
-  DecimalDegreesToDMSStr(1.2345, out);
-  printf("1.2345d -> %s\n",out);
+  double rad;
 
-  printf("Decimal Hours to HMS Str\n");
-  DecimalHoursToHMSStr(12.345, out);
-  printf("12.345h -> %s\n",out);
+  rad = DMSToRad('-', 16, 44, 41.5);
+  printf("DMS to Radians\n");
+  printf("-16d44\'41.5\" to Radians: %f\n",rad);
   printf("\n");
 
-  printf("====================\n\n");
-
-  printf("Decimal Degrees to Decimal Hours\n");
-  printf("180.0d -> %f\n",DecimalDegreesToDecimalHours(180.0));
-  printf("41.0d -> %f\n",DecimalDegreesToDecimalHours(41.0));
-  printf("360.0d -> %f\n",DecimalDegreesToDecimalHours(360.0));
-  printf("318.0d -> %f\n",DecimalDegreesToDecimalHours(318.0));
+  rad = HMSToRad('+', 6, 45, 59.19);
+  printf("HMS to Radians\n");
+  printf("06:45:59.19 to Radians: %f\n",rad);
   printf("\n");
 
-  printf("====================\n\n");
+  printf("Radians to DMS/HMS conversion testing\n");
+  printf("=====================================\n\n");
+  printf("Radians to DMS\n");
 
-  printf("Decimal Hours to Decimal Degrees\n");
-  printf("12.0h -> %f\n",DecimalHoursToDecimalDegrees(12.0));
-  printf("12.5h -> %f\n",DecimalHoursToDecimalDegrees(12.5));
-  printf("23.9h -> %f\n",DecimalHoursToDecimalDegrees(23.9));
-  printf("1.235h -> %f\n",DecimalHoursToDecimalDegrees(1.235));
+  printf("0 rad:     ");
+  PrintDMS(0);
 
-  printf("====================\n\n");
+  printf("PI/4 rad:  ");
+  PrintDMS(PI/4);
 
-  printf("01/01/2000 12:00:00 -> %f\n",GetJulianYear(12,0,0,2000,1,1));
+  printf("PI/2 rad:  ");
+  PrintDMS(PI/2);
+
+  printf("3PI/2 rad: ");
+  PrintDMS(3*PI/2);
+
+  printf("7PI/4 rad: ");
+  PrintDMS(7*PI/4);
+
+  printf("2PI rad:   ");
+  PrintDMS(2*PI);
+
+  printf("\n");
+  printf("Radians to HMS\n");
+
+  printf("0 rad:     ");
+  PrintHMS(0);
+
+  printf("PI/4 rad:  ");
+  PrintHMS(PI/4);
+
+  printf("PI/2 rad:  ");
+  PrintHMS(PI/2);
+
+  printf("3PI/2 rad: ");
+  PrintHMS(3*PI/2);
+
+  printf("7PI/4 rad: ");
+  PrintHMS(7*PI/4);
+
+  printf("2PI rad:   ");
+  PrintHMS(2*PI);
 
   return 0;
 }

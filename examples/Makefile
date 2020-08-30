@@ -24,13 +24,13 @@ _COMMA=,
 _RPATHS=$(addprefix -Wl$(_COMMA)-rpath$(_COMMA),$(_LIBDIRS))
 LDFLAGS=-O3 $(INCDIRS) $(LIBDIRS) $(_RPATHS) $(LIBS)
 
-_SRCFILES=triangulumExampleJson.c \
-					triangulumExampleNative.c \
-					bigDipperExampleNative.c \
-					bigDipperExampleJson.c \
-					epochConversionExample.c \
-					celestialTimeExample.c \
-					starLocationExample.c
+_SRCFILES=celestialTimeExample.c
+					#triangulumExampleJson.c \
+					#triangulumExampleNative.c \
+					#bigDipperExampleNative.c \
+					#bigDipperExampleJson.c \
+					#epochConversionExample.c \
+					#starLocationExample.c
 
 SRCS=$(addprefix $(SRCDIR)/,$(_SRCFILES))
 

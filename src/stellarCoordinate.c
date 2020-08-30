@@ -98,7 +98,43 @@ void StellarCoordinateSetAtmosphericCorrectionType(StellarCoordinate *sc, ATM_CO
 Equatorial to Horizontal
 Uses terrestrial latitude
 */
+void StellarCoordinateEqToHorizSOFA(StellarCoordinate *sc, double lst, double lat, StellarCoordinate *out){
+  sc.lon
+  sc.lat
+
+  double pm_ra = 0;
+  double pm_dec = 0;
+  double parallax = 0;
+  double radial_velocity = 0;
+
+  GetSplitUTC
+
+  iauAtco13(sc.lon, sc.lat,
+            pm_ra, pm_dec, parallax, radial_velocity,
+
+            double utc1, double utc2, double dut1,
+            double elong, double phi, double hm, double xp, double yp,
+            double phpa, double tc, double rh, double wl,
+            double *aob, double *zob, double *hob,
+            double *dob, double *rob, double *eo)
+
 void StellarCoordinateEqToHoriz(StellarCoordinate *sc, double lst, double lat, StellarCoordinate *out){
+  sc.lon
+  sc.lat
+
+  double pm_ra = 0;
+  double pm_dec = 0;
+  double parallax = 0;
+  double radial_velocity = 0;
+
+  iauAtco13(sc.lon, sc.lat,
+            pm_ra, pm_dec, parallax, radial_velocity,
+
+            double utc1, double utc2, double dut1,
+            double elong, double phi, double hm, double xp, double yp,
+            double phpa, double tc, double rh, double wl,
+            double *aob, double *zob, double *hob,
+            double *dob, double *rob, double *eo)
 
   Matrix eqToHoriz;
   MakeEqToHoriz(&eqToHoriz,lst,lat);

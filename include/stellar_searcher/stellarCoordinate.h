@@ -10,6 +10,7 @@
 #include "stellar_searcher/threeVector.h"
 #include "stellar_searcher/matrix.h"
 #include "stellar_searcher/celestialTime.h"
+#include "sofa.h"
 
 typedef enum{
   CS_EQUATORIAL,
@@ -66,6 +67,7 @@ void StellarCoordinateSetEpochType(StellarCoordinate *sc, EPOCH_TYPE epoch);
 void StellarCoordinateSetAtmosphericCorrectionType(StellarCoordinate *sc, ATM_CORR_TYPE atm_corr);
 
 // Conversions 
+void StellarCoordinateEqToHorizSOFA(StellarCoordinate *sc, double lst, double lat, StellarCoordinate *out);
 void StellarCoordinateEqToHoriz(StellarCoordinate *sc, double lst, double lat, StellarCoordinate *out);
 void StellarCoordinateEqToHaDec(StellarCoordinate *sc, double q, StellarCoordinate *out);
 

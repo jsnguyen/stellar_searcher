@@ -5,37 +5,48 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
+#include "sofa.h"
 
 #define PI 3.14159265
 
-int GetCurrentJDN();
-int GetJDN(int Y, int M, int D);
+// !!! NOTICE, NEED RIGOROUS WAY OF FINDING DUT1 FOR DATES PREVIOUS TO THIS AS WELL !!!
+// See: https://datacenter.iers.org/eop.php
+// This is true from 02 May 2019, 0h UTC, onwards
+#define DUT1 -0.2
 
-double GetFractionalJD(int h, int m, int s);
+  // !!! NOTICE, NEED RIGOROUS WAY OF FINDING DT FOR DATES PREVIOUS TO THIS AS WELL !!!
+  // USNO website for DT reference seems to be down for a bit...
+#define DT 69.36 // Good on 2020-01-01... but this number changes over time unpredictably!
 
-double GetCurrentJD();
-double GetJD(int h, int m, double s, int Y, int M, int D);
+typedef struct {
+  int Y, M, D;
+  int h, m;
+  double s;
+} DateTime;
 
-double GetJulianYear(int h, int m, double s, int Y, int M, int D);
-double GetCurrentJulianYear();
+void GetCurrentDateTime(DateTime *dt);
+void SetDate(DateTime *dt, int Y, int M, int D);
+void SetTime(DateTime *dt, int h, int m, int s);
+void SetDateTime(DateTime *dt, int Y, int M, int D, int h, int m, double s);
 
-double GetGMT();
-double GetGMST(int Y, int M, int D, int h, int m, int s);
-double GetCurrentGMST();
-double GetGAST(double JD);
-double GetLMST(double JD, double lon);
-double GetLAST(double JD, double lon);
+int GetJDN(DateTime dt);
+double GetFractionalJD(DateTime dt);
 
-double DMSToDecimalDegrees(double d, double m, double s);
-double HMSToDecimalHours(double h, double m , double s);
+double GetJD(DateTime dt);
+double GetJulianYear(DateTime dt);
 
-void PrintDecimalDegreesToDMS(double a);
-void PrintDecimalHoursToHMS(double a);
+void GetSplitUTC(DateTime dt, double *UTC1, double *UTC2);
 
-void DecimalDegreesToDMSStr(double a, char *out);
-void DecimalHoursToHMSStr(double a, char *out);
+double GetGMST(DateTime dt);
+double GetGAST(DateTime dt);
 
-double DecimalDegreesToDecimalHours(double a);
-double DecimalHoursToDecimalDegrees(double a);
+double GetLMST(DateTime dt, double lon);
+double GetLAST(DateTime dt, double lon);
+
+double DMSToRad(char sign, int d, int m, double s);
+double HMSToRad(char sign, int h, int m, double s);
+
+void PrintDMS(double rad);
+void PrintHMS(double rad);
 
 #endif
