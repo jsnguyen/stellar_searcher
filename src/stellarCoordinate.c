@@ -186,3 +186,22 @@ void StellarCoordinatePrintDecimal(StellarCoordinate *sc, UNIT unit){
   printf("%d %s: (%f,%f)\n",sc->cs,modifier,sc->lon*lonFactor,sc->lat*latFactor);
 
 }
+
+void MakeCoordinateToVector(double lo, double la, ThreeVector *tv){
+
+  double lon = lo*(PI/180.0);
+  double lat = la*(PI/180.0);
+
+  double i = cos(lat)*cos(lon);
+  double j = cos(lat)*sin(lon);
+  double k = sin(lat);
+
+  ThreeVectorSet(tv,i,j,k);
+}
+
+void MakeVectorToCoordinate(ThreeVector *tv, double a[2]){
+
+  a[0]=(180.0/PI)*atan2(tv->j,tv->i);
+  a[1]=(180.0/PI)*asin(tv->k);
+
+}

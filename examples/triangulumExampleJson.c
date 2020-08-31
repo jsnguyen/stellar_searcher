@@ -24,7 +24,7 @@ int main(){
 
   printf("Printing interpolated points for whole constellation\n");
   for(int i=0;i<totalPointsConstellation;i++){
-    StellarCoordinatePrintDecimal(&points[i]);
+    StellarCoordinatePrintDecimal(&points[i],DEG);
   }
 
   ConstellationDestroyStars(&c);

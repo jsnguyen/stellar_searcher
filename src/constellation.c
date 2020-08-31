@@ -59,6 +59,6 @@ void ConstellationAdd(Constellation *cs, StellarCoordinate *star){
 void ConstellationPrint(Constellation *cs){
   printf("Name: %s\n",cs->name);
   for(int i=0;i<cs->len;i++){
-    StellarCoordinatePrintDecimal(&cs->stars[i]);
+    StellarCoordinatePrintDecimal(&cs->stars[i], DEG);
   }
 }

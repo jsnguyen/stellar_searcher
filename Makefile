@@ -24,10 +24,9 @@ _SRCFILES=threeVector.c \
 					celestialTime.c \
 					dateTime.c \
 					stellarCoordinate.c \
-					#constellation.c \
-					#interpolate.c \
-					#parser.c
-					#coordinateSystemMatricies.c \
+					constellation.c \
+					interpolate.c \
+					parser.c
 
 SRCS=$(addprefix $(SRCDIR)/,$(_SRCFILES))
 

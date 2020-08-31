@@ -1,11 +1,12 @@
 #include "stellar_searcher/interpolate.h"
 
-// Returns decimal degrees
+/* CHECK SPHERICAL INTERPOLATION!!! */
+
 double GetGreatCircleDistance(StellarCoordinate *a, StellarCoordinate *b){
   ThreeVector tva, tvb;
   MakeCoordinateToVector(a->lon,a->lat, &tva);
   MakeCoordinateToVector(a->lon,a->lat, &tvb);
-  return 180.0/PI * acos(ThreeVectorDotProduct(&tva, &tvb));
+  return acos(ThreeVectorDotProduct(&tva, &tvb));
 }
 
 // Makes points from a to b including ONLY a and NOT b
@@ -47,10 +48,10 @@ void SphericalLinearInterpolation(StellarCoordinate *a, StellarCoordinate *b, St
 
     // make angles positive
     while(result[0] < 0){
-      result[0]+=360.0;
+      result[0]+=2*PI;
     }
     while(result[1] < 0){
-      result[1]+=360.0;
+      result[1]+=2*PI;
     }
 
     points[i].lon=result[0];

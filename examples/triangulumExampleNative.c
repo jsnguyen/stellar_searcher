@@ -10,57 +10,54 @@ int main(){
   Constellation c;
   ConstellationInit(&c,"Triangulum",NULL,0); // Initialize
 
+  DateTime J2000;
+  SetDateTime(&J2000, 2000,1,1,12,0,0);
+
   int nStars = 6;
   StellarCoordinate triangulumStars[nStars]; // Array for holding the stars
 
   // Initialize all of the stars by hand
   StellarCoordinateInit(&triangulumStars[0],
-                        DecimalHoursToDecimalDegrees(HMSToDecimalHours(1,53,4.90)),
-                        DMSToDecimalDegrees(29,34,45.8),
+                        HMSToRad('+',1,53,4.90),
+                        DMSToRad('+',29,34,45.8),
                         J2000,
                         CS_EQUATORIAL,
-                        EPOCH_J2000,
-                        NO_ATM_CORR);
+                        EPOCH_J2000);
 
   StellarCoordinateInit(&triangulumStars[1],
-                        DecimalHoursToDecimalDegrees(HMSToDecimalHours(2,2,57.97)),
-                        DMSToDecimalDegrees(33,17,2.9),
+                        HMSToRad('+',2,2,57.97),
+                        DMSToRad('+',33,17,2.9),
                         J2000,
                         CS_EQUATORIAL,
-                        EPOCH_J2000,
-                        NO_ATM_CORR);
+                        EPOCH_J2000);
 
   StellarCoordinateInit(&triangulumStars[2],
-                        DecimalHoursToDecimalDegrees(HMSToDecimalHours(2,9,32.52)),
-                        DMSToDecimalDegrees(34,59,14.6),
+                        HMSToRad('+',2,9,32.52),
+                        DMSToRad('+',34,59,14.6),
                         J2000,
                         CS_EQUATORIAL,
-                        EPOCH_J2000,
-                        NO_ATM_CORR);
+                        EPOCH_J2000);
 
   StellarCoordinateInit(&triangulumStars[3],
-                        DecimalHoursToDecimalDegrees(HMSToDecimalHours(2,17,2.42)),
-                        DMSToDecimalDegrees(34,13,29.4),
+                        HMSToRad('+',2,17,2.42),
+                        DMSToRad('+',34,13,29.4),
                         J2000,
                         CS_EQUATORIAL,
-                        EPOCH_J2000,
-                        NO_ATM_CORR);
+                        EPOCH_J2000);
 
   StellarCoordinateInit(&triangulumStars[4],
-                        DecimalHoursToDecimalDegrees(HMSToDecimalHours(2,17,18.84)),
-                        DMSToDecimalDegrees(33,50,50.4),
+                        HMSToRad('+',2,17,18.84),
+                        DMSToRad('+',33,50,50.4),
                         J2000,
                         CS_EQUATORIAL,
-                        EPOCH_J2000,
-                        NO_ATM_CORR);
+                        EPOCH_J2000);
 
   StellarCoordinateInit(&triangulumStars[5],
-                        DecimalHoursToDecimalDegrees(HMSToDecimalHours(2,12,22.32)),
-                        DMSToDecimalDegrees(30,18,11.6),
+                        HMSToRad('+',2,12,22.32),
+                        DMSToRad('+',30,18,11.6),
                         J2000,
                         CS_EQUATORIAL,
-                        EPOCH_J2000,
-                        NO_ATM_CORR);
+                        EPOCH_J2000);
 
   // Add the stars to the constellation
   for(int i=0;i<nStars;i++){
@@ -74,7 +71,7 @@ int main(){
 
   printf("Printing interpolated points for whole constellation\n");
   for(int i=0;i<totalPointsConstellation;i++){
-    StellarCoordinatePrintDecimal(&points[i]);
+    StellarCoordinatePrintDecimal(&points[i],DEG);
   }
 
   ConstellationDestroyStars(&c);

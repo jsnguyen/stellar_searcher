@@ -112,6 +112,10 @@ int jsonParse(Constellation *c, const char *filename){
     }
   }
 
+
+  DateTime J2000;
+  SetDateTime(&J2000, 2000,1,1,12,0,0);
+
   for(int i=0;i<len;i++){
     StellarCoordinate star;
 
@@ -120,8 +124,7 @@ int jsonParse(Constellation *c, const char *filename){
                           decs[i],
                           J2000,
                           CS_EQUATORIAL,
-                          EPOCH_J2000,
-                          NO_ATM_CORR);
+                          EPOCH_J2000);
 
     ConstellationAdd(c,&star);
     printf("%f %f\n",ras[i],decs[i]);
@@ -161,11 +164,13 @@ double strParseCoord(char *s, char type){
 
   double result=0;
   if(type=='h'){
-    result=DecimalHoursToDecimalDegrees(HMSToDecimalHours(atof(strVal),atof(strMin),atof(strSec)));
+    // RECHECK THIS!!!!
+    result = DMSToRad('+', atof(strVal), atof(strMin), atof(strSec));
   }
   else if(type=='d'){
-    result=DMSToDecimalDegrees(atof(strVal),atof(strMin),atof(strSec));
+    result = DMSToRad('+', atof(strVal), atof(strMin), atof(strSec));
   }
 
   return result;
 }
+

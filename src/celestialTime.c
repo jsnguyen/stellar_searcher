@@ -19,14 +19,15 @@ int GetJDN(DateTime dt){
 
 }
 
-double GetFractionalJD(DateTime dt){
-  return 0.5 + dt.h/24.0 + dt.m/(24.0*60.0) + dt.s/(24.0*60.0*60.0);
-}
 
 // Julian Day
 // This number is not as accurate as two separate numbers...
 double GetJD(DateTime dt){
   return GetJDN(dt) + GetFractionalJD(dt);
+}
+
+double GetFractionalJD(DateTime dt){
+  return 0.5 + dt.h/24.0 + dt.m/(24.0*60.0) + dt.s/(24.0*60.0*60.0);
 }
 
 double GetJulianYear(DateTime dt){

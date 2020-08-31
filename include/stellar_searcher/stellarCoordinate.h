@@ -17,8 +17,8 @@
 
 typedef enum{
   CS_EQUATORIAL,
-  CS_AZALT,
   CS_HADEC,
+  CS_AZALT,
   CS_ECLIPTIC,
   CS_GALACTIC,
   CS_SUPERGALACTIC
@@ -75,5 +75,8 @@ void StellarCoordinateEqToHaDec(StellarCoordinate *sc, DateTime dt, double g_lon
 void StellarCoordinateJ2000ToJNow(StellarCoordinate *in, StellarCoordinate *out);
 
 void StellarCoordinatePrintDecimal(StellarCoordinate *sc, UNIT unit);
+
+void MakeCoordinateToVector(double lo, double la, ThreeVector *tv);
+void MakeVectorToCoordinate(ThreeVector *tv, double a[2]);
 
 #endif

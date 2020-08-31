@@ -26,11 +26,9 @@ LDFLAGS=-O3 $(INCDIRS) $(LIBDIRS) $(_RPATHS) $(LIBS)
 
 _SRCFILES=celestialTimeTest.c \
 					stellarCoordinateTest.c \
-					#triangulumExampleJson.c \
-					#triangulumExampleNative.c \
-					#bigDipperExampleNative.c \
-					#bigDipperExampleJson.c \
-					#epochConversionExample.c \
+					triangulumExampleJson.c \
+					triangulumExampleNative.c \
+					bigDipperExampleJson.c
 
 SRCS=$(addprefix $(SRCDIR)/,$(_SRCFILES))
 

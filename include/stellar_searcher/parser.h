@@ -14,3 +14,4 @@ int jsonParse(Constellation *c, const char *filename);
 double strParseCoord(char *s, char type);
 
 #endif
+
