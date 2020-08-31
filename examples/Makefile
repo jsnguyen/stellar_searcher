@@ -24,13 +24,13 @@ _COMMA=,
 _RPATHS=$(addprefix -Wl$(_COMMA)-rpath$(_COMMA),$(_LIBDIRS))
 LDFLAGS=-O3 $(INCDIRS) $(LIBDIRS) $(_RPATHS) $(LIBS)
 
-_SRCFILES=celestialTimeExample.c
+_SRCFILES=celestialTimeTest.c \
+					stellarCoordinateTest.c \
 					#triangulumExampleJson.c \
 					#triangulumExampleNative.c \
 					#bigDipperExampleNative.c \
 					#bigDipperExampleJson.c \
 					#epochConversionExample.c \
-					#starLocationExample.c
 
 SRCS=$(addprefix $(SRCDIR)/,$(_SRCFILES))
 

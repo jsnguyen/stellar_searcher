@@ -22,7 +22,8 @@ LDFLAGS=-O3 -shared $(INCDIRS) $(LIBDIRS) $(LIBS)
 _SRCFILES=threeVector.c \
 					matrix.c \
 					celestialTime.c \
-					#stellarCoordinate.c \
+					dateTime.c \
+					stellarCoordinate.c \
 					#constellation.c \
 					#interpolate.c \
 					#parser.c

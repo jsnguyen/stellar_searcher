@@ -7,6 +7,8 @@
 #include <time.h>
 #include "sofa.h"
 
+#include "stellar_searcher/dateTime.h"
+
 #define PI 3.14159265
 
 // !!! NOTICE, NEED RIGOROUS WAY OF FINDING DUT1 FOR DATES PREVIOUS TO THIS AS WELL !!!
@@ -18,21 +20,11 @@
   // USNO website for DT reference seems to be down for a bit...
 #define DT 69.36 // Good on 2020-01-01... but this number changes over time unpredictably!
 
-typedef struct {
-  int Y, M, D;
-  int h, m;
-  double s;
-} DateTime;
-
-void GetCurrentDateTime(DateTime *dt);
-void SetDate(DateTime *dt, int Y, int M, int D);
-void SetTime(DateTime *dt, int h, int m, int s);
-void SetDateTime(DateTime *dt, int Y, int M, int D, int h, int m, double s);
 
 int GetJDN(DateTime dt);
-double GetFractionalJD(DateTime dt);
 
 double GetJD(DateTime dt);
+double GetFractionalJD(DateTime dt);
 double GetJulianYear(DateTime dt);
 
 void GetSplitUTC(DateTime dt, double *UTC1, double *UTC2);

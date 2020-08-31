@@ -3,13 +3,16 @@
 
 #define PI 3.14159265
 
-#define J2000 2000
+#define DEG2RAD 3.1459265/180.0
+#define RAD2DEG 180.0/3.14159265
+#define RAD2HR  12.0/3.14159265
 
 #include <stdio.h>
 #include <string.h>
 #include "stellar_searcher/threeVector.h"
 #include "stellar_searcher/matrix.h"
 #include "stellar_searcher/celestialTime.h"
+#include "stellar_searcher/dateTime.h"
 #include "sofa.h"
 
 typedef enum{
@@ -27,9 +30,10 @@ typedef enum{
 } EPOCH_TYPE;
 
 typedef enum{
-  NO_ATM_CORR,
-  ATM_CORR
-} ATM_CORR_TYPE;
+  RAD,
+  DEG,
+  HRDEG
+} UNIT;
 
 /*
  * EVERYTHING USES DECIMAL DEGREES FOR CONSISTENCY
@@ -37,68 +41,39 @@ typedef enum{
 
 typedef struct {
     double lon,lat; // ra,dec 
-    double epoch_yr; // units of decimal years
+    DateTime dt;
 
     CS_TYPE cs;
     EPOCH_TYPE epoch;
-    ATM_CORR_TYPE atm_corr;
 } StellarCoordinate;
 
 StellarCoordinate* StellarCoordinateCreate();
-void StellarCoordinateInit(StellarCoordinate *sc, double lon, double lat, double epoch_yr, CS_TYPE type, EPOCH_TYPE epoch, ATM_CORR_TYPE atm_corr);
+void StellarCoordinateInit(StellarCoordinate *sc, double lon, double lat, DateTime dt, CS_TYPE type, EPOCH_TYPE epoch);
 void StellarCoordinateDestroy();
 
 void StellarCoordinateCopy(StellarCoordinate *a, StellarCoordinate *b);
 
 double StellarCoordinateGetLon(StellarCoordinate *sc);
 double StellarCoordinateGetLat(StellarCoordinate *sc);
-double StellarCoordinateGetEpochYear(StellarCoordinate *sc);
+DateTime StellarCoordinateGetDateTime(StellarCoordinate *sc);
 CS_TYPE StellarCoordinateGetCoordinateSystemType(StellarCoordinate *sc);
 EPOCH_TYPE StellarCoordinateGetEpochType(StellarCoordinate *sc);
-ATM_CORR_TYPE StellarCoordinateGetAtmosphericCorrectionType(StellarCoordinate *sc);
 
-void StellarCoordinateSet(StellarCoordinate *sc, double lon, double lat, double epoch_yr, CS_TYPE type, EPOCH_TYPE epoch, ATM_CORR_TYPE atm_corr);
+void StellarCoordinateSet(StellarCoordinate *sc, double lon, double lat, DateTime dt, CS_TYPE type, EPOCH_TYPE epoch);
 
 void StellarCoordinateSetLon(StellarCoordinate *sc, double lon);
 void StellarCoordinateSetLat(StellarCoordinate *sc, double lat);
-void StellarCoordinateSetEpochYear(StellarCoordinate *sc, double epoch_yr);
+void StellarCoordinateSetDateTime(StellarCoordinate *sc, DateTime dt);
 void StellarCoordinateSetCoordinateSystemType(StellarCoordinate *sc, CS_TYPE type);
 void StellarCoordinateSetEpochType(StellarCoordinate *sc, EPOCH_TYPE epoch);
-void StellarCoordinateSetAtmosphericCorrectionType(StellarCoordinate *sc, ATM_CORR_TYPE atm_corr);
 
 // Conversions 
-void StellarCoordinateEqToHorizSOFA(StellarCoordinate *sc, double lst, double lat, StellarCoordinate *out);
-void StellarCoordinateEqToHoriz(StellarCoordinate *sc, double lst, double lat, StellarCoordinate *out);
-void StellarCoordinateEqToHaDec(StellarCoordinate *sc, double q, StellarCoordinate *out);
+void StellarCoordinateEqToHoriz(StellarCoordinate *sc, DateTime dt, double g_lon, double g_lat, StellarCoordinate *out);
 
-void StellarCoordinateEqToHorizWithCorrection(StellarCoordinate *sc, double lst, double lat, StellarCoordinate *out);
-void StellarCoordinateEqToHaDecWithCorrection(StellarCoordinate *sc, double lst, double lat, StellarCoordinate *out);
+void StellarCoordinateEqToHaDec(StellarCoordinate *sc, DateTime dt, double g_lon, double g_lat, StellarCoordinate *out);
 
 void StellarCoordinateJ2000ToJNow(StellarCoordinate *in, StellarCoordinate *out);
 
-void StellarCoordinatePrintDecimal(StellarCoordinate *sc);
-void StellarCoordinatePrintEq(StellarCoordinate *sc);
-void StellarCoordinatePrintHoriz(StellarCoordinate *sc);
-void StellarCoordinatePrintHaDec(StellarCoordinate *sc);
-
-void MakeCoordinateToVector(double lo, double la, ThreeVector *tv);
-void MakeStellarCoordinateToVector(StellarCoordinate *sc, ThreeVector *tv);
-void MakeVectorToCoordinate(ThreeVector *tv, double a[2]);
-
-void MakeEqToHaDec(Matrix *a, double lst);
-
-void MakeHaDecToHoriz(Matrix *a, double lat);
-void MakeHorizToHaDec(Matrix *a, double lat);
-
-void MakeEqToGal(Matrix *a);
-
-void MakeHorizToEq(Matrix *a, double lst, double lat);
-void MakeEqToHoriz(Matrix *a, double lst, double lat);
-
-void MakePrecessionMatrix(Matrix *a, double JD);
-void MakeNutationMatrix(Matrix *a, double JD);
-
-double GetAtmosphericRefractionCorrection(double alt);
-
+void StellarCoordinatePrintDecimal(StellarCoordinate *sc, UNIT unit);
 
 #endif
