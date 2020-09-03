@@ -6,16 +6,18 @@ OBJDIR=.
 _INCDIRS=../include \
 				 ../../wmmwrapper/include \
 				 ../../wmmwrapper/wmm2015_src/src \
-				 ../../jsmn 
+				 ../../jsmn \
+				 ../../../include
 
 INCDIRS=$(addprefix -I,$(_INCDIRS))
 
 _LIBDIRS=../lib \
-				 ../../wmmwrapper/lib 
+				 ../../wmmwrapper/lib \
+				 ../../../lib
 
 LIBDIRS=$(addprefix -L,$(_LIBDIRS))
 
-_LIBS=ss ww m
+_LIBS=ss ww m sofa_c
 LIBS=$(addprefix -l,$(_LIBS))
 
 CXXFLAGS=-O3 -Wall $(INCDIRS)
@@ -25,8 +27,7 @@ _RPATHS=$(addprefix -Wl$(_COMMA)-rpath$(_COMMA),$(_LIBDIRS))
 LDFLAGS=-O3 $(INCDIRS) $(LIBDIRS) $(_RPATHS) $(LIBS)
 
 _SRCFILES=matrixThreeVectorTest.c \
-					stringParserTest.c \
-					#SOFA_test.c
+					stringParserTest.c
 
 SRCS=$(addprefix $(SRCDIR)/,$(_SRCFILES))
 
