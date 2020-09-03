@@ -13,6 +13,7 @@ int main(){
 
   double tLat = 33*DEG2RAD;
   double tLon = -106*DEG2RAD;
+  printf("(lat,lon): %f, %f\n", tLat*RAD2DEG, tLon*RAD2DEG);
 
   DateTime dt;
   SetDateTime(&dt, 2018,1,7,0,0,0);

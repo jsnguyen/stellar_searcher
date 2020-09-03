@@ -1,7 +1,5 @@
 #include "stellar_searcher/interpolate.h"
 
-/* CHECK SPHERICAL INTERPOLATION!!! */
-
 double GetGreatCircleDistance(StellarCoordinate *a, StellarCoordinate *b){
   ThreeVector tva, tvb;
   MakeCoordinateToVector(a->lon,a->lat, &tva);
@@ -19,9 +17,10 @@ void SphericalLinearInterpolation(StellarCoordinate *a, StellarCoordinate *b, St
   ThreeVector tvc;
   double result[2];
 
+  // This is a caveat here... see if there's a way to avoid linear interpolation completely
   if(dp > 0.9995){
-    printf("ERROR: Points too close to spherically interpolate!\n");
-    printf("       Linearly interpolating instead!\n");
+    printf("WARNING: Points too close to spherically interpolate!\n");
+    printf("         Linearly interpolating instead!\n");
     for(int i=0;i<nPoints;i++){
       double n = 1-(double) i / (double) (nPoints);
       tvc.i = (1-n)*tvb.i+n*tva.i;
@@ -36,6 +35,7 @@ void SphericalLinearInterpolation(StellarCoordinate *a, StellarCoordinate *b, St
     return;
   }
 
+  printf("Doing spherical interpolation...\n");
   double omega = acos(dp);
   for(int i=0;i<nPoints;i++){
     double n = 1-(double) i / (double) (nPoints);

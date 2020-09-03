@@ -9,7 +9,7 @@
 
 #include "stellar_searcher/dateTime.h"
 
-#define PI 3.14159265
+#define PI 3.141592653589
 
 // !!! NOTICE, NEED RIGOROUS WAY OF FINDING DUT1 FOR DATES PREVIOUS TO THIS AS WELL !!!
 // See: https://datacenter.iers.org/eop.php
@@ -19,7 +19,6 @@
   // !!! NOTICE, NEED RIGOROUS WAY OF FINDING DT FOR DATES PREVIOUS TO THIS AS WELL !!!
   // USNO website for DT reference seems to be down for a bit...
 #define DT 69.36 // Good on 2020-01-01... but this number changes over time unpredictably!
-
 
 int GetJDN(DateTime dt);
 

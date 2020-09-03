@@ -1,11 +1,11 @@
 #ifndef STELLARCOORDINATE_H
 #define STELLARCOORDINATE_H
 
-#define PI 3.14159265
+#define PI 3.141592653589
 
-#define DEG2RAD 3.1459265/180.0
-#define RAD2DEG 180.0/3.14159265
-#define RAD2HR  12.0/3.14159265
+#define DEG2RAD PI/180.0
+#define RAD2DEG 180.0/PI
+#define RAD2HR  12.0/PI
 
 #include <stdio.h>
 #include <string.h>

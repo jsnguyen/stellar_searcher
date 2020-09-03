@@ -19,7 +19,9 @@ int jsonParse(Constellation *c, const char *filename){
     fseek (f, 0, SEEK_SET);
     buffer = malloc (length);
     if (buffer){
-      if (!fread(buffer, 1, length, f)) return 1; // if fread fails return 1
+      if (!fread(buffer, 1, length, f)){
+        return 1; // if fread fails return 1
+      }
     }
     fclose (f);
   }
@@ -164,8 +166,7 @@ double strParseCoord(char *s, char type){
 
   double result=0;
   if(type=='h'){
-    // RECHECK THIS!!!!
-    result = DMSToRad('+', atof(strVal), atof(strMin), atof(strSec));
+    result = HMSToRad('+', atof(strVal), atof(strMin), atof(strSec));
   }
   else if(type=='d'){
     result = DMSToRad('+', atof(strVal), atof(strMin), atof(strSec));

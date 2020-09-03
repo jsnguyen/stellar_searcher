@@ -1,10 +1,9 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 
 import argparse
 import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.basemap import Basemap
-
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('filename', type=str, help='input constellation filename')
@@ -16,11 +15,12 @@ ra=[]
 dec=[]
 with open(__FILENAME__) as f:
     for line in f:
-        l = line.strip().split(',')
+        l = line.strip().split()[2][1:-1].split(',')
+        print(l)
         ra.append(float(l[0]))
         dec.append(float(l[1]))
 
-margin = 5
+margin = 6
 lon_min = min(ra) - margin
 lon_max = max(ra) + margin
 lat_min = min(dec) - margin
@@ -32,13 +32,14 @@ m = Basemap(llcrnrlon=lon_min,
             llcrnrlat=lat_min,
             urcrnrlon=lon_max,
             urcrnrlat=lat_max,
-            lat_0=(lat_max - lat_min)/2.0,
-            lon_0=(lon_max - lon_min)/2.0,
-            projection='merc',
+            lon_0=np.mean(ra),
+            lat_0=np.mean(dec),
+            projection='gnom',
             )
 
 parallels = np.linspace(lat_min,lat_max,6)
 meridians = np.linspace(lon_min,lon_max,6)
+
 m.drawparallels(parallels,labels=[False if i%2 else True for i,_ in enumerate(parallels)],labelstyle='+/-')
 m.drawmeridians(meridians,labels=[True if i%2 else False for i,_ in enumerate(meridians)],labelstyle='+/-')
 
