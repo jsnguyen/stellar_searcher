@@ -4,3 +4,4 @@
 *.swo
 *.so
 *.o
+*.dSYM
