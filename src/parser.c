@@ -33,8 +33,9 @@ int jsonParse(Constellation *c, const char *filename){
   jsmntok_t t[128]; /* We expect no more than 128 tokens */
 
   double *ras=NULL,*decs=NULL;
+  int *pointingOrder=NULL;
   int raCounter=0,decCounter=0;
-  int len=0;
+  int pointingOrderCounter=0;
 
   jsmn_init(&p);
   r = jsmn_parse(&p, buffer, strlen(buffer), t, sizeof(t)/sizeof(t[0]));
@@ -59,30 +60,16 @@ int jsonParse(Constellation *c, const char *filename){
       i++;
     }
 
-    else if (jsoneq(buffer, &t[i], "len") == 0){
-      char buf[32];
-      sprintf(buf,"%.*s\n", t[i+1].end-t[i+1].start, buffer+t[i+1].start);
-      //c->len=atoi(buf);
-      len=atoi(buf);
-      ras  = malloc(len*(sizeof(double)));
-      decs = malloc(len*(sizeof(double)));
-      //c->stars = malloc(len*(sizeof(StellarCoordinate)));
-      i++;
-    }
-
     else if (jsoneq(buffer, &t[i], "coordinates") == 0){
-      if(len==0 || ras==NULL || decs==NULL){
-        printf("Cannot parse coordinates! Length not initialized.\n");
-        break;
-      }
-
-      int j;
 
       if (t[i+1].type != JSMN_ARRAY){
         continue; /* We expect groups to be an array of strings */
       }
 
-      for (j=0;j<t[i+1].size;j++){
+      ras  = malloc(t[i+1].size*(sizeof(double)));
+      decs = malloc(t[i+1].size*(sizeof(double)));
+
+      for (int j=0;j<t[i+1].size;j++){
         jsmntok_t *g = &t[i+j+2];
         int coordLen = 32;
         char buf[2*coordLen];
@@ -107,9 +94,28 @@ int jsonParse(Constellation *c, const char *filename){
         decs[decCounter++]=strParseCoord(strDec,'d');
       }
       i += t[i+1].size+1;
+    }
+
+    else if (jsoneq(buffer, &t[i], "pointingOrder") == 0){
+      if (t[i+1].type != JSMN_ARRAY){
+        continue; 
+      }
+
+      pointingOrder = malloc(t[i+1].size*(sizeof(double)));
+
+      for (int j=0;j<t[i+1].size;j++){
+        jsmntok_t *g = &t[i+j+2];
+        int coordLen = 32;
+        char buf[2*coordLen];
+        sprintf(buf,"%.*s\n", g->end-g->start, buffer+g->start);
+
+        pointingOrder[pointingOrderCounter++] = atoi(buf);
+      }
+      i += t[i+1].size+1;
 
     }
-    else{
+
+    else {
       printf("Unexpected key: %.*s\n", t[i].end-t[i].start, buffer+t[i].start);
     }
   }
@@ -118,7 +124,7 @@ int jsonParse(Constellation *c, const char *filename){
   DateTime J2000;
   SetDateTime(&J2000, 2000,1,1,12,0,0);
 
-  for(int i=0;i<len;i++){
+  for(int i=0;i<7;i++){
     StellarCoordinate star;
 
     StellarCoordinateInit(&star,
@@ -138,6 +144,9 @@ int jsonParse(Constellation *c, const char *filename){
   }
   if(decs!=NULL){
     free(decs);
+  }
+  if(pointingOrder!=NULL){
+    free(pointingOrder);
   }
   return 0;
 }
@@ -175,3 +184,52 @@ double strParseCoord(char *s, char type){
   return result;
 }
 
+void ParseSMPL(const char *filename){
+  FILE * f = fopen (filename,"r");
+  char line[MAX_LINE];
+  int stage = 0;
+
+  while (fgets(line,MAX_LINE,f) != NULL){
+    line[strcspn(line, "\r\n")] = 0; // strip newline
+
+    // skip blank lines
+    if(line[0] == '\0'){
+      continue;
+    }
+
+    if(!strncmp(line,"---- NAME ----",MAX_LINE)){
+      stage++;
+      continue;
+    }
+
+    else if(!strncmp(line,"---- COORDINATES ----",MAX_LINE)){
+      stage++;
+      continue;
+    }
+
+    else if(!strncmp(line,"---- POINTINGORDER ----",MAX_LINE)){
+      stage++;
+      continue;
+    }
+
+    else if(!strncmp(line,"---- END ----",MAX_LINE)){
+      stage++;
+      break;
+    }
+  
+    if(stage == 1){
+      printf("NAME: %s\n", line);
+    }
+
+    else if(stage == 2){
+      printf("COORDINATES: %s\n", line);
+    }
+
+    else if(stage == 3){
+      printf("POINTINGORDER: %s\n", line);
+    }
+
+
+  }
+  fclose (f);
+}

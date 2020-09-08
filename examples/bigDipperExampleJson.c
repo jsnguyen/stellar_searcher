@@ -13,7 +13,7 @@ int main(){
   ConstellationInit(&c,"",NULL,0);
   
   // Read in constellation
-  jsonParse(&c,"ursa_major.json");
+  jsonParse(&c,"../data/constellations/ursa_major.json");
   ConstellationPrint(&c);
 
   int nPointsBetweenStars = 5;

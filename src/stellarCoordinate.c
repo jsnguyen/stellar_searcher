@@ -1,9 +1,7 @@
 #include "stellar_searcher/stellarCoordinate.h"
 
-#define PI 3.14159265
-
 /*
- * EVERYTHING USES DECIMAL DEGREES FOR CONSISTENCY
+ * EVERYTHING USES RADIANS
  */
 
 StellarCoordinate* StellarCoordinateCreate(){
