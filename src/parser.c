@@ -217,21 +217,25 @@ void ParseSMPL(const char *filename, Constellation *cs){
       continue;
     }
 
+    // if strings are equal, then continue to the next step
     if(!strncmp(line,triggers[step],MAX_LINE)){
       step++;
       continue;
     }
 
+    // read in name
     if(step == 1){
       printf("NAME: %s\n", line);
       strcpy(name,line);
     }
 
+    // read in length of coordinates array
     else if(step == 2){
       len_c = atoi(line);
       stars = malloc(len_c*sizeof(StellarCoordinate));
     }
 
+    // read in equatorial coordinates array
     else if(step == 3){
       printf("COORDINATES: %s\n", line);
 
@@ -246,11 +250,13 @@ void ParseSMPL(const char *filename, Constellation *cs){
       n_stars++;
     }
 
+    // read in length of pointing order array
     else if(step == 4){
       len_p = atoi(line);
       pointing_order = malloc(len_p*sizeof(int));
     }
 
+    // read in pointing order array
     else if(step == 5){
 
       printf("POINTINGORDER: %s\n", line);
