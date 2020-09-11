@@ -267,9 +267,5 @@ void ParseSMPL(const char *filename, Constellation *cs){
 
   fclose (f);
   ConstellationInit(cs, name, stars, n_stars, pointing_order, n_pointing_order);
-}
-
-void ParseEqCoord(char *str, double *ra, double *dec){
-
 
 }
