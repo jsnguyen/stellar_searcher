@@ -1,7 +1,7 @@
 #include "stellar_searcher/stellarCoordinate.h"
 
 /*
- * EVERYTHING USES RADIANS
+ * EVERYTHING USES RADIANS FOR CONSISTENCY
  */
 
 StellarCoordinate* StellarCoordinateCreate(){
@@ -202,4 +202,11 @@ void MakeVectorToCoordinate(ThreeVector *tv, double a[2]){
   a[0]=(180.0/PI)*atan2(tv->j,tv->i);
   a[1]=(180.0/PI)*asin(tv->k);
 
+}
+
+void StellarCoordinateSetJ2000(StellarCoordinate *sc){
+  DateTime J2000;
+  SetDateTime(&J2000, 2000,1,1,12,0,0);
+  sc->dt = J2000;
+  sc->epoch = EPOCH_J2000;
 }

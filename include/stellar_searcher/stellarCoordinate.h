@@ -36,7 +36,7 @@ typedef enum{
 } UNIT;
 
 /*
- * EVERYTHING USES DECIMAL DEGREES FOR CONSISTENCY
+ * EVERYTHING USES RADIANS FOR CONSISTENCY
  */
 
 typedef struct {
@@ -78,5 +78,7 @@ void StellarCoordinatePrintDecimal(StellarCoordinate *sc, UNIT unit);
 
 void MakeCoordinateToVector(double lo, double la, ThreeVector *tv);
 void MakeVectorToCoordinate(ThreeVector *tv, double a[2]);
+
+void StellarCoordinateSetJ2000(StellarCoordinate *sc);
 
 #endif

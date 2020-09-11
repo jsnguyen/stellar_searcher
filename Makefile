@@ -5,12 +5,13 @@ OBJDIR=build
 
 _INCDIRS=include \
 				 ../jsmn \
-				 ../../include
+				 /Users/jsn/programs/sofa/20200721/c/include
 
 INCDIRS=$(addprefix -I,$(_INCDIRS))
 
 _LIBDIRS=lib \
-				 ../../lib
+				 /Users/jsn/programs/sofa/20200721/c/lib
+
 LIBDIRS=$(addprefix -L,$(_LIBDIRS))
 
 _LIBS=m sofa_c

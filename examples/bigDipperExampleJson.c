@@ -10,14 +10,14 @@
 
 int main(){
   Constellation c;
-  ConstellationInit(&c,"",NULL,0);
+  ConstellationInit(&c,"",NULL,0,NULL,0);
   
   // Read in constellation
   jsonParse(&c,"../data/constellations/ursa_major.json");
   ConstellationPrint(&c);
 
   int nPointsBetweenStars = 5;
-  int totalPointsConstellation = (nPointsBetweenStars+1)*(c.len-1)+1; // +1 for extra point at the end to hold endpoint
+  int totalPointsConstellation = (nPointsBetweenStars+1)*(c.len_s-1)+1; // +1 for extra point at the end to hold endpoint
 
   StellarCoordinate points[totalPointsConstellation];
 

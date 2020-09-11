@@ -10,13 +10,13 @@
 int main(){
 
   Constellation c;
-  ConstellationInit(&c,"Triangulum",NULL,0); // Initialize
+  ConstellationInit(&c,"Triangulum",NULL,0, NULL, 0); // Initialize
 
   // Loading the .json file
   jsonParse(&c,"triangulum.json");
 
   int nPointsBetweenStars = 4;
-  int totalPointsConstellation = (nPointsBetweenStars+1)*(c.len-1)+1; // +1 for extra point at the end to hold the endpoint
+  int totalPointsConstellation = (nPointsBetweenStars+1)*(c.len_s-1)+1; // +1 for extra point at the end to hold the endpoint
   StellarCoordinate points[totalPointsConstellation];
 
   // Interpolates the whole constellation and puts values in points array

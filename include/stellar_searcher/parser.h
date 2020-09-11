@@ -15,7 +15,9 @@ int jsoneq(const char *json, jsmntok_t *tok, const char *s);
 int jsonParse(Constellation *c, const char *filename);
 double strParseCoord(char *s, char type);
 
-void ParseSMPL(const char *filename);
+void ParseSMPL(const char *filename, Constellation *con);
+void ParseString(char *str);
+void ParseEqCoord(char *str, double *ra, double *dec);
 
 #endif
 

@@ -1,7 +1,10 @@
 #include "stellar_searcher/parser.h"
 
 int main(){
-  ParseSMPL("../data/constellations/ursa_major.smpl");
+  Constellation cs;
+  ParseSMPL("../data/constellations/ursa_major.smpl",&cs);
+  ConstellationDestroyStars(&cs);
+  ConstellationDestroyPointingOrder(&cs);
 
   return 0;
 }

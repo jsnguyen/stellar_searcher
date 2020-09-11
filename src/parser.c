@@ -184,10 +184,23 @@ double strParseCoord(char *s, char type){
   return result;
 }
 
-void ParseSMPL(const char *filename){
+void ParseSMPL(const char *filename, Constellation *cs){
   FILE * f = fopen (filename,"r");
   char line[MAX_LINE];
-  int stage = 0;
+  int step = 0;
+
+  char name[MAX_LINE];
+
+  int n_stars=0;
+  StellarCoordinate *stars;
+
+  int n_pointing_order=0;
+  int *pointing_order;
+
+  int c_len;
+  int p_len;
+
+  StellarCoordinate sc;
 
   while (fgets(line,MAX_LINE,f) != NULL){
     line[strcspn(line, "\r\n")] = 0; // strip newline
@@ -198,38 +211,62 @@ void ParseSMPL(const char *filename){
     }
 
     if(!strncmp(line,"---- NAME ----",MAX_LINE)){
-      stage++;
+      step++;
       continue;
     }
 
     else if(!strncmp(line,"---- COORDINATES ----",MAX_LINE)){
-      stage++;
+      step++;
+      fgets(line,MAX_LINE,f);
+      c_len = atoi(line);
+      stars = malloc(c_len*sizeof(StellarCoordinate));
       continue;
     }
 
     else if(!strncmp(line,"---- POINTINGORDER ----",MAX_LINE)){
-      stage++;
+      step++;
+      fgets(line,MAX_LINE,f);
+      p_len = atoi(line);
+      pointing_order = malloc(p_len*sizeof(int));
       continue;
     }
 
-    else if(!strncmp(line,"---- END ----",MAX_LINE)){
-      stage++;
-      break;
-    }
-  
-    if(stage == 1){
+    if(step == 1){
       printf("NAME: %s\n", line);
+      strcpy(name,line);
     }
 
-    else if(stage == 2){
+    else if(step == 2){
       printf("COORDINATES: %s\n", line);
+      ParseEqCoord(line, &(sc.lon), &(sc.lat));
+      StellarCoordinateSetJ2000(&sc);
+      stars[n_stars] = sc;
+      n_stars++;
     }
 
-    else if(stage == 3){
+    else if(step == 3){
       printf("POINTINGORDER: %s\n", line);
-    }
 
+      char *token = strtok(line, ",");
+
+      while (token != NULL){
+        pointing_order[n_pointing_order++] = atoi(token);
+        token = strtok(NULL, ",");
+      }
+
+    }
 
   }
+
   fclose (f);
+  ConstellationInit(cs, name, stars, n_stars, pointing_order, n_pointing_order);
+}
+
+void ParseEqCoord(char *str, double *ra, double *dec){
+
+  char *token = strtok(str, ",");
+  *ra  = strParseCoord(token,'h');
+  token = strtok(NULL, ",");
+  *dec = strParseCoord(token,'d');
+
 }
