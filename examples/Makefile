@@ -29,7 +29,7 @@ _SRCFILES=celestialTimeTest.c \
 					triangulumExampleJson.c \
 					triangulumExampleNative.c \
 					bigDipperExampleJson.c \
-					parserExample.c
+					bigDipperExampleSMPL.c
 
 SRCS=$(addprefix $(SRCDIR)/,$(_SRCFILES))
 

@@ -192,16 +192,23 @@ void ParseSMPL(const char *filename, Constellation *cs){
   char name[MAX_LINE];
 
   int n_stars=0;
-  StellarCoordinate *stars;
+  StellarCoordinate *stars=NULL;
 
   int n_pointing_order=0;
-  int *pointing_order;
+  int *pointing_order=NULL;
 
   int len_c;
   int len_p;
 
   StellarCoordinate sc;
   char *token;
+
+  char *triggers[] = { "---- NAME ----",
+                       "---- LEN_C ----",
+                       "---- COORDINATES ----",
+                       "---- LEN_P ----",
+                       "---- POINTINGORDER ----"};
+
   while (fgets(line,MAX_LINE,f) != NULL){
     line[strcspn(line, "\r\n")] = 0; // strip newline
 
@@ -210,27 +217,7 @@ void ParseSMPL(const char *filename, Constellation *cs){
       continue;
     }
 
-    if(!strncmp(line,"---- NAME ----",MAX_LINE)){
-      step++;
-      continue;
-    }
-
-    else if(!strncmp(line,"---- COORDINATES ----",MAX_LINE)){
-      step++;
-      continue;
-    }
-
-    else if(!strncmp(line,"---- LEN_C ----",MAX_LINE)){
-      step++;
-      continue;
-    }
-
-    else if(!strncmp(line,"---- POINTINGORDER ----",MAX_LINE)){
-      step++;
-      continue;
-    }
-
-    else if(!strncmp(line,"---- LEN_P ----",MAX_LINE)){
+    if(!strncmp(line,triggers[step],MAX_LINE)){
       step++;
       continue;
     }
@@ -247,7 +234,13 @@ void ParseSMPL(const char *filename, Constellation *cs){
 
     else if(step == 3){
       printf("COORDINATES: %s\n", line);
-      ParseEqCoord(line, &(sc.lon), &(sc.lat));
+
+      token = strtok(line, ",");
+      sc.lon  = strParseCoord(token,'h');
+
+      token = strtok(NULL, ",");
+      sc.lat = strParseCoord(token,'d');
+
       StellarCoordinateSetJ2000(&sc);
       stars[n_stars] = sc;
       n_stars++;
@@ -278,9 +271,5 @@ void ParseSMPL(const char *filename, Constellation *cs){
 
 void ParseEqCoord(char *str, double *ra, double *dec){
 
-  char *token = strtok(str, ",");
-  *ra  = strParseCoord(token,'h');
-  token = strtok(NULL, ",");
-  *dec = strParseCoord(token,'d');
 
 }
