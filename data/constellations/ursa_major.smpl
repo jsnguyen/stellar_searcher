@@ -1,8 +1,10 @@
 ---- NAME ----
 Ursa Major
 
----- COORDINATES ----
+---- LEN_C ----
 7
+
+---- COORDINATES ----
 11h03m43.67152s,61d45m03.7249s
 11h01m50.47564s,56d45m03.7249s
 11h53m49.84732s,53d41m41.1350s
@@ -11,6 +13,8 @@ Ursa Major
 13h23m55.54048s,54d55m31.2671s
 13h47m32.43776s,49d18m47.7602s
 
----- POINTINGORDER ----
+---- LEN_P ----
 8
+
+---- POINTINGORDER ----
 3,0,1,2,3,4,5,6

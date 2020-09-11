@@ -73,7 +73,7 @@ void InterpolateConstellation(Constellation *c, StellarCoordinate* points, int n
 
   StellarCoordinate tempPoints[actualNPoints];
 
-  for(int i=0;i<c->len-1;i++){
+  for(int i=0;i<c->len_s-1;i++){
     //printf("Interpolating between %f,%f and %f,%f\n",c->stars[i]->lon,c->stars[i]->lat,c->stars[i+1]->lon,c->stars[i+1]->lat);
     SphericalLinearInterpolation(&c->stars[i],&c->stars[i+1],tempPoints,actualNPoints);
 
@@ -84,5 +84,5 @@ void InterpolateConstellation(Constellation *c, StellarCoordinate* points, int n
   }
 
   // tack on the last coordinate at the end
-  StellarCoordinateCopy(&points[actualNPoints*(c->len-1)+1-1],&c->stars[c->len-1]);
+  StellarCoordinateCopy(&points[actualNPoints*(c->len_s-1)+1-1],&c->stars[c->len_s-1]);
 }
