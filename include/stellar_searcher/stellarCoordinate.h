@@ -72,8 +72,6 @@ void StellarCoordinateEqToHoriz(StellarCoordinate *sc, DateTime dt, double g_lon
 
 void StellarCoordinateEqToHaDec(StellarCoordinate *sc, DateTime dt, double g_lon, double g_lat, StellarCoordinate *out);
 
-void StellarCoordinateJ2000ToJNow(StellarCoordinate *in, StellarCoordinate *out);
-
 void StellarCoordinatePrintDecimal(StellarCoordinate *sc, UNIT unit);
 
 void MakeCoordinateToVector(double lo, double la, ThreeVector *tv);

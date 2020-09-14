@@ -65,7 +65,7 @@ void InterpolateConstellation(Constellation *c, StellarCoordinate* points, int n
 
   // Actual number of points is the beginning point + the interpolated points to the next star
   // But NOT including the next star itself!
-  int actualNPoints=nPointsBetweenStars+1;
+  int actualNPoints=nPointsBetweenStars+1; // CHECK THIS!!!
 
   // This means that at the end of the sequence the last star 
   // won't be accounted for, so we copy the last star after

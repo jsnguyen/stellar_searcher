@@ -4,7 +4,6 @@
 #include "stellar_searcher/interpolate.h"
 #include "stellar_searcher/stellarCoordinate.h"
 #include "stellar_searcher/parser.h"
-#include "jsmn.h"
 
 // Test for checking the string parser
 

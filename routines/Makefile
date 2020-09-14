@@ -10,11 +10,12 @@ _INCDIRS=../include \
 INCDIRS=$(addprefix -I,$(_INCDIRS))
 
 _LIBDIRS=../lib \
+				 ../../wmmwrapper/lib \
 				 /Users/jsn/programs/sofa/20200721/c/lib
 
 LIBDIRS=$(addprefix -L,$(_LIBDIRS))
 
-_LIBS=ss m
+_LIBS=ss
 LIBS=$(addprefix -l,$(_LIBS))
 
 CXXFLAGS=-O3 -Wall $(INCDIRS)
@@ -23,8 +24,7 @@ _COMMA=,
 _RPATHS=$(addprefix -Wl$(_COMMA)-rpath$(_COMMA),$(_LIBDIRS))
 LDFLAGS=-O3 $(INCDIRS) $(LIBDIRS) $(_RPATHS) $(LIBS)
 
-_SRCFILES=matrixThreeVectorTest.c \
-					stringParserTest.c
+_SRCFILES=bigDipperRoutine.c \
 
 SRCS=$(addprefix $(SRCDIR)/,$(_SRCFILES))
 

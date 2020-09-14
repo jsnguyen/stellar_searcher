@@ -148,10 +148,6 @@ void StellarCoordinateEqToHaDec(StellarCoordinate *sc, DateTime dt, double g_lon
 
 }
 
-void StellarCoordinateJ2000ToJNow(StellarCoordinate *in, StellarCoordinate *out){
-  return;
-}
-
 void StellarCoordinatePrintDecimal(StellarCoordinate *sc, UNIT unit){
   char modifier[9];
 
