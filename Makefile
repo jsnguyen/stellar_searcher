@@ -27,7 +27,8 @@ _SRCFILES=threeVector.c \
 					stellarCoordinate.c \
 					constellation.c \
 					interpolate.c \
-					parser.c
+					parser.c \
+					dnd.c
 
 SRCS=$(addprefix $(SRCDIR)/,$(_SRCFILES))
 
